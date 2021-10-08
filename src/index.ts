@@ -1,39 +1,34 @@
-interface Named {
-  readonly name: string;
+// function add(n1: number, n2: number, printResult: boolean, phrase: string) {
+//   //   if (typeof n1 !== "number" || typeof n2 !== "number") // guard type which checks our code in runtime
+//   // console.log("Error....");
+//   if (printResult) {
+//     console.log(`${phrase}`, n1 + n2);
+//   } else {
+//     return n1 + n2;
+//   }
+// }
+
+//guards = if(let key in obj) || typeof something || instance of some Class
+// discriminated union (pattern) - if we have one common liter property in every object, which describe the object ( works with object and even with interfaces)
+
+interface People {
+  type: "people"; //  here= discrimination union pattern
+  name: string;
+  makeOrder: () => string[];
 }
 
-// in type we can store any values as literal, unions and other types, in interfaces only object or function types, and also interfaces can extend another one
-
-type ToolType = {
-  name2: string;
-};
-interface ToolFull extends Named {
-  price: number;
-  downloadingCounts: number;
+interface Car {
+  type: "car"; //  here= discrimination union pattern
+  model: string;
+  makeOrder: () => string[];
 }
 
-class ToolMaker implements ToolFull, ToolType {
-  dataFromTheSide: string; // we have to implement all properties from iterface but also we can add another properties
-  constructor(
-    public name: string,
-    public name2: string,
-    public price: number,
-    public downloadingCounts: number,
-    dataFromTheSide: string
-  ) {
-    this.dataFromTheSide = dataFromTheSide;
-  }
+type Client = People | Car; //here = discrimination union pattern
+
+function serveClient(client: Client) {
+  if (client.type === "car") fetch(`${client.model}`);
+  else if (client.type === "people") fetch(`${client.name}`); // here= discrimination union pattern
 }
 
-let towardCss: ToolFull;
-towardCss = new ToolMaker("string", "towardCss", 0, 100, "sideData");
-console.log(towardCss);
-
-// type addFn = (a: number, b: number) => number
-
-// not very useful but sometimes you may find that inside project
-interface addFn {
-  (a: number, b: number): number;
-}
-
-let add: addFn = (n1, n2) => n1 + n2;
+serveClient({ name: "Sasha", type: "people", makeOrder: () => [] });
+serveClient({ model: "Lada", type: "car", makeOrder: () => [] });
