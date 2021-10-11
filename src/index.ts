@@ -1,34 +1,38 @@
-// function add(n1: number, n2: number, printResult: boolean, phrase: string) {
-//   //   if (typeof n1 !== "number" || typeof n2 !== "number") // guard type which checks our code in runtime
-//   // console.log("Error....");
-//   if (printResult) {
-//     console.log(`${phrase}`, n1 + n2);
-//   } else {
-//     return n1 + n2;
-//   }
-// }
+// and also core idea of generic types is  flexibility and still strong typed, it's types which do something with other types
+//в визовві функції ти робиш тільки те що тобі треба з конкретним типом переданим дженеріку, в випадку якщо заюзати юніон, тобі при запуску буде дозволено працювати з будь яким типом з переліку, це не є те що нам треба
+//generic for the same types in each function calls or classes instance, union for allowing different types from the list on each call
+class DataStorage<T extends string | number | boolean> {
+  private data: Array<T> = [];
 
-//guards = if(let key in obj) || typeof something || instance of some Class
-// discriminated union (pattern) - if we have one common liter property in every object, which describe the object ( works with object and even with interfaces)
+  addItem(item: T) {
+    this.data.push(item);
+  }
 
-interface People {
-  type: "people"; //  here= discrimination union pattern
-  name: string;
-  makeOrder: () => string[];
+  removeItem(item: T) {
+    this.data.splice(this.data.indexOf(item), 1);
+  }
+
+  getItems() {
+    return [...this.data];
+  }
+}
+//flexibility combine with type safety to work with class or result of function
+const numberStorage = new DataStorage<number>();
+const textStorage = new DataStorage<string>();
+
+// const objStorage = new DataStorage<object>();
+
+interface CourseGoal {
+  title: string;
+  completeUntil: Date;
 }
 
-interface Car {
-  type: "car"; //  here= discrimination union pattern
-  model: string;
-  makeOrder: () => string[];
+function createCourseGoal(title: string, completeUntil: Date): CourseGoal {
+  let courseGoal: Partial<CourseGoal> = {}; // utility types
+  courseGoal.title = title;
+  courseGoal.completeUntil = new Date();
+  return courseGoal as CourseGoal;
 }
 
-type Client = People | Car; //here = discrimination union pattern
-
-function serveClient(client: Client) {
-  if (client.type === "car") fetch(`${client.model}`);
-  else if (client.type === "people") fetch(`${client.name}`); // here= discrimination union pattern
-}
-
-serveClient({ name: "Sasha", type: "people", makeOrder: () => [] });
-serveClient({ model: "Lada", type: "car", makeOrder: () => [] });
+const arr: Readonly<string[]> = ["sasha", "ruslana"];
+// arr.push('faf')
