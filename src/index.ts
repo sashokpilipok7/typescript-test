@@ -30,7 +30,7 @@ interface CourseGoal {
 function createCourseGoal(title: string, completeUntil: Date): CourseGoal {
   let courseGoal: Partial<CourseGoal> = {}; // utility types
   courseGoal.title = title;
-  courseGoal.completeUntil = new Date();
+  courseGoal.completeUntil = completeUntil;
   return courseGoal as CourseGoal;
 }
 
