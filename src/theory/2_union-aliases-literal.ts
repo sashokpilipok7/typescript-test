@@ -1,5 +1,5 @@
-type ResultConversion = "as-number" | "as-text"; // type aliases or custom Type
-type Flexible = number | string; // type aliases or custom Type
+type ResultConversion = "as-number" | "as-text"; // type aliases ( тип псевдонім ) or custom Type
+type Flexible = number | string; // type aliases ( тип псевдонім ) or custom Type
 function add(
   n1: Flexible, // union type - союз
   n2: Flexible,
